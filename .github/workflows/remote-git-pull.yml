@@ -1,0 +1,24 @@
+name: Remote Git Pull
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  remote-pull:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Execute remote git pull
+      uses: appleboy/ssh-action@v0.1.3
+      with:
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          cd /path/to/your/repo
+          git pull origin main
